@@ -81,8 +81,7 @@ const SizeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
   width: 80%;
 `;
 
@@ -158,7 +157,7 @@ const BuyBtn = styled.button`
   font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
-  margin: 10px 0;
+  margin: 8px 0;
 
   &:hover {
     cursor: pointer;
@@ -174,7 +173,7 @@ const CartBtn = styled.button`
   font-size: 1rem;
   font-weight: 600;
   color: #3a3a3a;
-  margin: 10px 0;
+  margin: 8px 0;
 
   &:hover {
     cursor: pointer;
