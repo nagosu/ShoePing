@@ -5,10 +5,8 @@ const NavigationBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 4.2rem;
-  top: 0;
-  position: sticky;
   border-bottom: 1px solid #ebe7e7;
 `;
 
