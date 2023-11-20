@@ -18,7 +18,7 @@ const CategoryTitle = styled.span`
   font-family: Pretendard;
   font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 20px;
+  margin-top: 0px;
   margin-bottom: 30px;
   text-align: left;
   width: 90%;
