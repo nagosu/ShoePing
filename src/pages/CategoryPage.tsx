@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import { Link, useLocation } from 'react-router-dom';
+import { url } from 'inspector';
+import NavBar, { Sneakers } from '../components/NavBar';
 import shoes from '../assets/shoes/shoes.png';
 //  import { CategoryType } from '../utils/types';
 
@@ -91,6 +92,9 @@ const CategoryPriceTitle = styled.span`
 `;
 
 export default function CategoryPage() {
+  const location = useLocation();
+  const { sneakersProps } = location.state as { sneakersProps: Sneakers };
+
   return (
     <>
       <NavBar />
@@ -99,11 +103,11 @@ export default function CategoryPage() {
         <CategoryItemContainer>
           <CategoryContentContainer to="/detail">
             <CategoryImageContainer>
-              <ShoesImage src={shoes} alt="shoes image" />
+              <ShoesImage src={sneakersProps.thumbnail} alt="shoes image" />
             </CategoryImageContainer>
-            <CategoryBrandTitle>NIKE</CategoryBrandTitle>
-            <CategoryProductTitle>NIKE W DUNK LOW PRM</CategoryProductTitle>
-            <CategoryPriceTitle>₩ 139,000</CategoryPriceTitle>
+            <CategoryBrandTitle>{sneakersProps.brand}</CategoryBrandTitle>
+            <CategoryProductTitle>{sneakersProps.title}</CategoryProductTitle>
+            <CategoryPriceTitle>₩ {sneakersProps.price}</CategoryPriceTitle>
           </CategoryContentContainer>
           <CategoryContentContainer to="/detail">
             <CategoryImageContainer>

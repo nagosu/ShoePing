@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 import ShoePing from '../assets/logo/ShoePing.png';
 
 const NavigationBar = styled.div`
@@ -48,18 +52,56 @@ const Authentication = styled.a`
   }
 `;
 
+export type Sneakers = {
+  brand: string;
+  price: number;
+  thumbnail: string;
+  title: string;
+};
+
 function NavBar() {
+  const [sneakersData, setSneakersData] = useState<Sneakers[]>([]);
+
+  const navigate = useNavigate();
+
+  const redirectToHome = () => {
+    window.location.href = '/';
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const sneakersCollectionRef = collection(db, 'sneakers');
+      const querySnapshot = await getDocs(sneakersCollectionRef);
+
+      const sneakersArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Sneakers),
+      }));
+
+      setSneakersData(sneakersArray);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <NavigationBar>
-      <Logo src={ShoePing} alt="ShoePing Logo" />
+      <Logo src={ShoePing} alt="ShoePing Logo" onClick={redirectToHome} />
       <CategoryUl>
-        <Category>스니커즈</Category>
-        <Category>러닝화</Category>
-        <Category>슬리퍼</Category>
-        <Category>구두</Category>
-        <Category>부츠</Category>
-        <Category>샌들</Category>
-        <Category>로퍼</Category>
+        <Category
+          onClick={() =>
+            navigate('/category', { state: { sneakersProps: sneakersData[0] } })
+          }
+        >
+          스니커즈
+        </Category>
+
+        <Category onClick={() => navigate('/category')}>러닝화</Category>
+        <Category onClick={() => navigate('/category')}>슬리퍼</Category>
+        <Category onClick={() => navigate('/category')}>구두</Category>
+        <Category onClick={() => navigate('/category')}>부츠</Category>
+        <Category onClick={() => navigate('/category')}>샌들</Category>
+        <Category onClick={() => navigate('/category')}>로퍼</Category>
       </CategoryUl>
       <AuthenticationDiv>
         <Authentication>로그인</Authentication>
