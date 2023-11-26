@@ -52,7 +52,7 @@ const Authentication = styled.a`
   }
 `;
 
-export type Sneakers = {
+export type Products = {
   brand: string;
   price: number;
   thumbnail: string;
@@ -60,7 +60,9 @@ export type Sneakers = {
 };
 
 function NavBar() {
-  const [sneakersData, setSneakersData] = useState<Sneakers[]>([]);
+  const [sneakersData, setSneakersData] = useState<Products[]>([]);
+  const [runningData, setRunningData] = useState<Products[]>([]);
+  const [slippersData, setSlippersData] = useState<Products[]>([]);
 
   const navigate = useNavigate();
 
@@ -70,15 +72,32 @@ function NavBar() {
 
   useEffect(() => {
     const fetchData = async () => {
+      // 스니커즈 데이터 가져오기
       const sneakersCollectionRef = collection(db, 'sneakers');
-      const querySnapshot = await getDocs(sneakersCollectionRef);
-
-      const sneakersArray = querySnapshot.docs.map((doc) => ({
+      const sneakersSnapshot = await getDocs(sneakersCollectionRef);
+      const sneakersArray = sneakersSnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...(doc.data() as Sneakers),
+        ...(doc.data() as Products),
       }));
-
       setSneakersData(sneakersArray);
+
+      // 러닝화 데이터 가져오기
+      const runningCollectionRef = collection(db, 'running');
+      const runningSnapshot = await getDocs(runningCollectionRef);
+      const runningArray = runningSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Products),
+      }));
+      setRunningData(runningArray);
+
+      // 슬리퍼 데이터 가져오기
+      const slippersCollectionRef = collection(db, 'slippers');
+      const slippersSnapshot = await getDocs(slippersCollectionRef);
+      const slippersArray = slippersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Products),
+      }));
+      setSlippersData(slippersArray);
     };
 
     fetchData();
@@ -90,14 +109,25 @@ function NavBar() {
       <CategoryUl>
         <Category
           onClick={() =>
-            navigate('/category', { state: { sneakersProps: sneakersData[0] } })
+            navigate('/category', { state: { categoryProps: sneakersData } })
           }
         >
           스니커즈
         </Category>
-
-        <Category onClick={() => navigate('/category')}>러닝화</Category>
-        <Category onClick={() => navigate('/category')}>슬리퍼</Category>
+        <Category
+          onClick={() =>
+            navigate('/category', { state: { categoryProps: runningData } })
+          }
+        >
+          러닝화
+        </Category>
+        <Category
+          onClick={() =>
+            navigate('/category', { state: { categoryProps: slippersData } })
+          }
+        >
+          슬리퍼
+        </Category>
         <Category onClick={() => navigate('/category')}>구두</Category>
         <Category onClick={() => navigate('/category')}>부츠</Category>
         <Category onClick={() => navigate('/category')}>샌들</Category>
