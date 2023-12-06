@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
-import { url } from 'inspector';
-import NavBar, { Products, Sneakers } from '../components/NavBar';
-import shoes from '../assets/shoes/shoes.png';
+import { useLocation, useNavigate } from 'react-router-dom';
+// import { url } from 'inspector';
+import NavBar, { Products } from '../components/NavBar';
+// import shoes from '../assets/shoes/shoes.png';
 //  import { CategoryType } from '../utils/types';
 
 const CategoryContainer = styled.div`
@@ -33,7 +33,7 @@ const CategoryItemContainer = styled.div`
   gap: 20px; // 셀 간격 조절
 `;
 
-const CategoryContentContainer = styled(Link)`
+const CategoryContentContainer = styled.div`
   display: flex;
   width: 100%;
   height: 22rem;
@@ -92,6 +92,7 @@ const CategoryPriceTitle = styled.span`
 `;
 
 export default function CategoryPage() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { categoryProps } = location.state as { categoryProps: Products[] };
 
@@ -102,7 +103,13 @@ export default function CategoryPage() {
         <CategoryTitle>{}</CategoryTitle>
         <CategoryItemContainer>
           {categoryProps.map((product) => (
-            <CategoryContentContainer to="/detail">
+            <CategoryContentContainer
+              onClick={() =>
+                navigate('/detail', {
+                  state: { detailProps: product },
+                })
+              }
+            >
               <CategoryImageContainer>
                 <ShoesImage src={product.thumbnail} alt="shoes image" />
               </CategoryImageContainer>

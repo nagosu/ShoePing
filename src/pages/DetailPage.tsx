@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import NavBar from '../components/NavBar';
-import shoes from '../assets/shoes/shoes.png';
+import { useLocation } from 'react-router-dom';
+import NavBar, { Products } from '../components/NavBar';
+// import shoes from '../assets/shoes/shoes.png';
 import toggleBtn from '../assets/toggleBtn/toggleBtn.png';
 import sample1 from '../assets/sampleImage/sample1.png';
 import sample2 from '../assets/sampleImage/sample2.png';
@@ -191,6 +192,8 @@ const SampleImage = styled.img`
 
 function DetailPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const { detailProps } = location.state as { detailProps: Products };
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -201,15 +204,13 @@ function DetailPage() {
       <NavBar />
       <ShoesContainer>
         <ShoesImageContainer>
-          <ShoesImage src={shoes} alt="shoes image" />
+          <ShoesImage src={detailProps.thumbnail} alt="shoes image" />
         </ShoesImageContainer>
         <ShoesInformation>
-          <Company>NIKE</Company>
+          <Company>{detailProps.brand}</Company>
           <ShoesTitleContainer>
-            <ShoesTitle>NIKE W DUNK LOW PRM</ShoesTitle>
-            <ShoesSubTitle>
-              나이키 여성 덩크 로우 프리미엄 빈티지 블랙 앤 화이트
-            </ShoesSubTitle>
+            <ShoesTitle>{detailProps.title}</ShoesTitle>
+            <ShoesSubTitle>{detailProps.subtitle}</ShoesSubTitle>
           </ShoesTitleContainer>
           <ShoesDetailContainer>
             <ShoesDetailOptionConatiner>
@@ -218,9 +219,9 @@ function DetailPage() {
               <ShoesDetailText>PRICE</ShoesDetailText>
             </ShoesDetailOptionConatiner>
             <ShoesDetailOptionConatiner>
-              <ShoesDetailText>WHITE/BLACK-COCONUT MILK</ShoesDetailText>
-              <ShoesDetailText>FQ8899-100</ShoesDetailText>
-              <ShoesDetailText>₩159,000</ShoesDetailText>
+              <ShoesDetailText>{detailProps.color}</ShoesDetailText>
+              <ShoesDetailText>{detailProps.styleNo}</ShoesDetailText>
+              <ShoesDetailText>₩{detailProps.price}</ShoesDetailText>
             </ShoesDetailOptionConatiner>
           </ShoesDetailContainer>
           <SizeContainer>

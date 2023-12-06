@@ -57,6 +57,9 @@ export type Products = {
   price: number;
   thumbnail: string;
   title: string;
+  color?: string;
+  subtitle?: string;
+  styleNo?: string;
 };
 
 function NavBar() {
